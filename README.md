@@ -12,4 +12,9 @@ This is a PyTorch implementation of our AISTATS paper [Neural Decomposition: Fun
 * [`encoder.py`](ND/encoder.py) implements the class for a standard CVAE encoder
 * [`CVAE.py`](ND/CVAE.py) provides a wrapper to combine the decoder and encoder for training purposes
 
-An example colab notebook will be added here shortly. 
+### Example notebook
+
+See the  for an example on synthetic data:
+
+* [open on github](toy_example.ipynb)
+* [open in Colab](https://colab.research.google.com/github/kasparmartens/NeuralDecomposition/blob/master/toy_example.ipynb)
