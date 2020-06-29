@@ -6,9 +6,9 @@ This is a PyTorch implementation of our AISTATS paper [Neural Decomposition: Fun
 
 ![](fig/ND_schema.png)
 
-### Example notebook
+### Example Colab notebook
 
-See the  for an example on synthetic data:
+See the Colab noteboook for an example on synthetic data:
 
 * [open in GitHub](toy_example.ipynb)
 * [open in Colab](https://colab.research.google.com/github/kasparmartens/NeuralDecomposition/blob/master/toy_example.ipynb)
