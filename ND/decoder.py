@@ -24,12 +24,21 @@ class Decoder(nn.Module):
                  p1=0.2, p2=0.2, p3=0.2, device="cpu"):
         """
         NN mapping with constraints to be used as the decoder in a CVAE. Performs Neural Decomposition.
+        :param output_dim: data dimensionality
+        :param grid_z: grid for quadrature (estimation of integral for f(z))
+        :param grid_c: grid for quadrature (estimation of integral for f(c))
+        :param grid_cz: grid for quadrature (estimation of integral for f(z, c))
         :param mapping_z: neural net mapping z to data
-        :param mapping_c: torch.nn.ModuleList of neural net(s) mapping c to data
-        :param mapping_int_z: torch.nn.ModuleList of neural net(s) mapping (z, c) to data
-        :param p1: Bernoulli prior for f_z1
-        :param p2: Bernoulli prior for f_c
-        :param p3: Bernoulli prior for f_int
+        :param mapping_c: neural net mapping c to data
+        :param mapping_cz: neural net mapping (z, c) to data
+        :param has_feature_level_sparsity: whether to use (Relaxed) Bernoulli feature-level sparsity
+        :param penalty_type: which penalty to apply
+        :param lambda0: initialisation for both fixed penalty $c$ as well as $lambda$ values
+        :param likelihood: Gaussian or Bernoulli
+        :param p1: Bernoulli prior for sparsity on mapping_z
+        :param p2: Bernoulli prior for sparsity on mapping_c
+        :param p3: Bernoulli prior for sparsity on mapping_zc
+        :param device: cpu or cuda
         """
         super().__init__()
 
@@ -57,13 +66,13 @@ class Decoder(nn.Module):
 
         self.intercept = torch.nn.Parameter(torch.zeros(1, output_dim))
 
-        self.Lambda_z = Variable(torch.ones(1, output_dim, device=device), requires_grad=True)
+        self.Lambda_z = Variable(lambda0*torch.ones(1, output_dim, device=device), requires_grad=True)
 
-        self.Lambda_c = Variable(torch.ones(1, output_dim, device=device), requires_grad=True)
+        self.Lambda_c = Variable(lambda0*torch.ones(1, output_dim, device=device), requires_grad=True)
 
-        self.Lambda_cz_1 = Variable(torch.ones(self.n_grid_z, output_dim, device=device), requires_grad=True)
+        self.Lambda_cz_1 = Variable(lambda0*torch.ones(self.n_grid_z, output_dim, device=device), requires_grad=True)
 
-        self.Lambda_cz_2 = Variable(torch.ones(self.n_grid_c, output_dim, device=device), requires_grad=True)
+        self.Lambda_cz_2 = Variable(lambda0*torch.ones(self.n_grid_c, output_dim, device=device), requires_grad=True)
 
         self.lambda0 = lambda0
 

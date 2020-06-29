@@ -66,7 +66,7 @@ class CVAE(nn.Module):
         return self.decoder.loglik(Y_pred, Y)
 
 
-    def optimize(self, data_loader, augmented_lagrangian_lr, n_iter=50000, logging_freq=20, logging_freq_int=100, account_for_noise=True, temperature_start=1.0, temperature_end=0.2, lambda_start=1.0, lambda_end=1.0, verbose=True):
+    def optimize(self, data_loader, augmented_lagrangian_lr, n_iter=50000, logging_freq=20, logging_freq_int=100, temperature_start=4.0, temperature_end=0.2, lambda_start=None, lambda_end=None, verbose=True):
 
         # sample size
         N = len(data_loader.dataset)
@@ -80,6 +80,10 @@ class CVAE(nn.Module):
 
         if self.decoder.has_feature_level_sparsity:
             temperature_grid = torch.linspace(temperature_start, temperature_end, steps=n_iter // 10, device=self.device)
+
+        if lambda_start is None:
+            lambda_start = self.decoder.lambda0
+            lambda_end = self.decoder.lambda0
         lambda_grid = torch.linspace(lambda_start, lambda_end, steps=n_iter // 10, device=self.device)
 
         # get shapes for integrals
