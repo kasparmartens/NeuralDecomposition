@@ -1,6 +1,6 @@
 # NeuralDecomposition
 
-This is a PyTorch implementation of our AISTATS paper [Neural Decomposition: Functional ANOVA with Variational Autoencoders](arxiv.org/abs/2006.14293) (Märtens & Yau, 2020)
+This is a PyTorch implementation of our AISTATS paper [Neural Decomposition: Functional ANOVA with Variational Autoencoders](https://arxiv.org/abs/2006.14293) (Märtens & Yau, 2020)
 
 ![](fig/feature_level_decomposition.png)
 
